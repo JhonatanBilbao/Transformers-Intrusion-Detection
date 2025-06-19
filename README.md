@@ -68,4 +68,45 @@ Se utiliza el dataset [CIC-IDS-2017](https://www.unb.ca/cic/datasets/ids-2017.ht
 **Reporte de clasificación**:
 
 
+---
+
+### 🖥️ Resultados en la PC Local
+
+| Métrica           | Valor                 |
+|-------------------|-----------------------|
+| Accuracy          | **98.21%**            |
+| Precision         | 96.65%                |
+| Recall            | 99.87%                |
+| F1 Score          | 98.23%                |
+| MCC               | 0.9647                |
+| AUC-ROC           | **0.9977**            |
+
+---
+
+## 📁 Estructura del Proyecto
+
+
+---
+
+## 🛠️ Adaptaciones en la versión local
+
+1. **Cambio de rutas locales:**
+
+```python
+data_path = r"D:\Jhonatan\Nueva carpeta\CIC-IDS-20177-PAQUET"
+```
+
+2. **Evitar MemoryError con muestreo:**
+```python
+df = df.sample(frac=0.25, random_state=42)
+```
+
+3. **Cambio de tipo de dato para ahorrar RAM:**
+```python
+X = X.astype(np.float32)
+```
+
+
+
+
 
