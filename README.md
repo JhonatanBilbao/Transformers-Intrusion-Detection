@@ -1,100 +1,99 @@
-# 🛡️ Sistema de Detección de Intrusos en Redes (NIDS) usando TabTransformer
+# 🛡️ Sistema de Detección de Intrusos en Redes (NIDS) con TabTransformer
 
-Este proyecto implementa un sistema de detección de intrusos en redes basado en aprendizaje profundo (TabTransformer) utilizando el conjunto de datos CIC-IDS-2017. Se parte de una versión inicial ejecutada en Google Colab y se adapta a un entorno local (Windows 10), mostrando comparativas de rendimiento y personalizaciones necesarias.
+Este proyecto implementa un sistema de detección de intrusos basado en aprendizaje profundo utilizando el modelo **TabTransformer** sobre el conjunto de datos **CIC-IDS-2017**. Se presentan resultados tanto en **Google Colab (con GPU)** como en una **PC local con CPU**, detallando adaptaciones realizadas para ejecutar en entornos con recursos limitados.
 
 ---
 
-## 📌 Objetivo del Proyecto
+## 🎯 Objetivo del Proyecto
 
-- Clasificar el tráfico de red como **Benigno** o **Ataque** usando un modelo basado en **TabTransformer**.
-- Aplicar técnicas de preprocesamiento, balanceo de clases, entrenamiento y evaluación del modelo.
-- Adaptar el código para ejecutarse en una **PC personal con recursos limitados**.
+- Clasificar el tráfico de red como **Benigno** o **Ataque**.
+- Aplicar técnicas de preprocesamiento, balanceo de clases, entrenamiento y evaluación.
+- Comparar el rendimiento entre ejecución en Google Colab y entorno local (Windows 10).
+- Demostrar cómo adaptar un modelo complejo a hardware sin GPU.
 
 ---
 
 ## 🧠 Dataset
 
-Se utiliza el dataset [CIC-IDS-2017](https://www.unb.ca/cic/datasets/ids-2017.html), convertido previamente de `.csv` a `.parquet` para optimizar lectura y procesamiento.
+Se utiliza el dataset [CIC-IDS-2017](https://www.unb.ca/cic/datasets/ids-2017.html), un conjunto de datos realista y etiquetado que simula tráfico de red con múltiples tipos de ataques.  
+> ⚠️ Para optimizar el procesamiento, los archivos `.csv` fueron previamente convertidos a formato `.parquet`.
 
 ---
 
-## ⚙️ Especificaciones de la PC Local (Windows 10)
+## ⚙️ Especificaciones del Entorno Local (Windows 10)
 
-| Componente     | Especificación                               |
-|----------------|-----------------------------------------------|
-| Procesador     | Intel(R) Core(TM) i5-10400F @ 2.90GHz (6 núcleos) |
-| RAM            | 8 GB                                          |
-| Disco SSD      | 250 GB (Kingston SNVS250G)                    |
-| Disco HDD      | 1 TB (WDC WD10EZEX-00BBHA0)                   |
-| Sistema Operativo | Windows 10 Pro - v10.0.19045.5854          |
-| GPU            | No compatible con CUDA (CPU-only)            |
-
----
-
-## 🧪 Librerías utilizadas
-
-- `pandas`, `numpy`, `matplotlib`, `seaborn`
-- `scikit-learn`, `imbalanced-learn`
-- `torch`, `tab-transformer-pytorch`
+| Componente        | Especificación                                 |
+|-------------------|-------------------------------------------------|
+| Procesador        | Intel Core i5-10400F @ 2.90GHz (6 núcleos)     |
+| RAM               | 8 GB                                            |
+| Almacenamiento    | SSD 250 GB (Kingston) + HDD 1 TB               |
+| Sistema Operativo | Windows 10 Pro (v10.0.19045.5854)              |
+| GPU               | No compatible con CUDA (CPU-only)              |
 
 ---
 
-## 🔄 Comparativa de Implementación
+## 📚 Librerías Utilizadas
 
-| Elemento                        | Google Colab                           | PC Local (Windows 10)                    |
-|---------------------------------|----------------------------------------|------------------------------------------|
-| Plataforma                      | Google Colab (GPU disponible)          | PC con CPU Intel                         |
-| Dataset                         | Montado desde Google Drive             | Lectura directa desde `D:\...`           |
-| Balanceo de clases              | `BorderlineSMOTE` sin restricciones    | `BorderlineSMOTE` + `sample(frac=0.25)` para evitar MemoryError |
-| Librerías                       | Instaladas vía `!pip`                  | Instaladas vía `pip install` local       |
-| Entrenamiento                   | Rápido (aceleración GPU)               | Más lento (solo CPU)                     |
-| Visualización                   | Interactiva, gráficos en notebook      | Igual, usando `matplotlib` y `seaborn`   |
+- **Procesamiento y Visualización**: `pandas`, `numpy`, `matplotlib`, `seaborn`
+- **Preprocesamiento y ML**: `scikit-learn`, `imbalanced-learn`
+- **Deep Learning**: `PyTorch`, `tab-transformer-pytorch`
+
+---
+
+## 🔁 Comparativa de Implementación
+
+| Característica             | Google Colab (GPU)                   | PC Local (CPU)                          |
+|----------------------------|--------------------------------------|-----------------------------------------|
+| Plataforma                 | Basado en navegador, GPU disponible  | CPU Intel i5                           |
+| Lectura de datos           | Desde Google Drive (.csv/.parquet)  | Desde disco local (`D:\...`)           |
+| Balanceo de clases         | `BorderlineSMOTE` completo           | `BorderlineSMOTE` + `sample(frac=0.25)` para reducir uso de memoria |
+| Instalación de librerías   | `!pip install`                       | `pip install` en entorno virtual/local |
+| Velocidad de entrenamiento | Rápido                               | Más lento (sin GPU)                    |
+| Visualización              | En notebook                          | Igual, con `matplotlib` / `seaborn`    |
 
 ---
 
 ## 📊 Métricas de Evaluación
 
-### ✅ Resultados en Google Colab ([GitHub del proyecto](https://github.com/JhonatanBilbao/Tesis-articulos))
+### ✅ Resultados en Google Colab
 
-| Métrica           | Valor                 |
-|-------------------|-----------------------|
-| Accuracy          | **98.56%**            |
-| Precision         | 97.38%                |
-| Recall            | 99.80%                |
-| F1 Score          | 98.58%                |
-| MCC               | 0.9714                |
-| AUC-ROC           | **0.9987**            |
+| Métrica           | Valor     |
+|-------------------|-----------|
+| **Accuracy**       | **98.56%** |
+| Precision         | 97.38%    |
+| Recall            | 99.80%    |
+| F1 Score          | 98.58%    |
+| MCC               | 0.9714    |
+| AUC-ROC           | **0.9987** |
 
-**Reporte de clasificación**:
-
-
----
-
-### 🖥️ Resultados en la PC Local
-
-| Métrica           | Valor                 |
-|-------------------|-----------------------|
-| Accuracy          | **98.21%**            |
-| Precision         | 96.65%                |
-| Recall            | 99.87%                |
-| F1 Score          | 98.23%                |
-| MCC               | 0.9647                |
-| AUC-ROC           | **0.9977**            |
+[🔗 GitHub del proyecto en Colab](https://github.com/JhonatanBilbao/Tesis-articulos)
 
 ---
 
-## 📁 Estructura del Proyecto
+### 🖥️ Resultados en PC Local
 
+| Métrica           | Valor     |
+|-------------------|-----------|
+| **Accuracy**       | **98.21%** |
+| Precision         | 96.65%    |
+| Recall            | 99.87%    |
+| F1 Score          | 98.23%    |
+| MCC               | 0.9647    |
+| AUC-ROC           | **0.9977** |
+
+> El rendimiento fue excelente incluso con recursos limitados, demostrando la viabilidad de modelos complejos como TabTransformer en entornos modestos.
 
 ---
 
-## 🛠️ Adaptaciones en la versión local
+## 🛠️ Adaptaciones Realizadas para la PC Local
 
-1. **Cambio de rutas locales:**
-
+1. **Cambio de rutas para lectura local**
 ```python
 data_path = r"D:\Jhonatan\Nueva carpeta\CIC-IDS-20177-PAQUET"
+
 ```
+
+
 
 2. **Evitar MemoryError con muestreo:**
 ```python
@@ -106,6 +105,10 @@ df = df.sample(frac=0.25, random_state=42)
 X = X.astype(np.float32)
 ```
 
+4. **Desactivación de CUDA:**
+```python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+```
 
 
 
